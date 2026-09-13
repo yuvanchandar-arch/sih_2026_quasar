@@ -1,0 +1,13 @@
+metric,value,theoretical_bound,status
+Honest Acceptance Rate,100.00%,>= 99.2% (1 - epsilon_total),COMPLIANT
+False Rejection Rate (FRR),0.00%,<= 0.8% (epsilon_total),COMPLIANT
+Attack Detection Rate,100.00%,Consistent with Hoeffding bounds,COMPLIANT
+False Acceptance Rate (FAR),0.00%,<= epsilon_total under attack,COMPLIANT
+Replay Rejection Rate,100.00%,100% (atomic SQLite ledger),COMPLIANT
+Transcript Tamper Rejection Rate,100.00%,100% (SHA3-256 chain),COMPLIANT
+Bell-Decoy Anomaly Rate,8.33%,High sensitivity on Bell attacks,COMPLIANT
+Rule-Label Agreement Rate,100.00%,100% under controlled benchmarks,COMPLIANT
+Average Pipeline Latency,0.286 ms,< 50 ms (real-time verification),COMPLIANT
+Verification Throughput,3500.2 sessions/sec,> 50 sessions/sec,COMPLIANT
+Simulated Qubit Count,6000 qubits,3 qubits per teleportation slot,COMPLIANT
+Classical Control Overhead,155 bytes,< 10 KB per session,COMPLIANT
