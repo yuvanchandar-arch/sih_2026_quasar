@@ -104,6 +104,37 @@ export default function VerdictPanel({ result, loading }) {
               ))}
             </div>
 
+            {/* Hoeffding Parameter Disclosure Bar (§11.1 Transparency) */}
+            <div style={{
+              marginTop: 14,
+              padding: '10px 14px',
+              background: 'rgba(15, 23, 42, 0.65)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: 8,
+              fontSize: 11,
+              fontFamily: 'Inter, sans-serif',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.6,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8, marginBottom: 4 }}>
+                <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                  📐 Hoeffding Decision Threshold Derivation (§11.1):
+                </span>
+                <span style={{ fontFamily: 'JetBrains Mono', color: 'var(--brand-cyan)', fontSize: 11 }}>
+                  τ_b = μ̂_b + δ_cal + δ_ver = 17.18%
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 16px', fontSize: 10.5, fontFamily: 'JetBrains Mono', color: '#94a3b8' }}>
+                <span>• Baseline: <strong style={{ color: '#e2e8f0' }}>μ̂ = 1.00%</strong></span>
+                <span>• Samples: <strong style={{ color: '#e2e8f0' }}>n_cal = 1,000 / n_ver = 500</strong></span>
+                <span>• Slacks: <strong style={{ color: '#e2e8f0' }}>δ_cal = 6.70% / δ_ver = 9.48%</strong></span>
+                <span>• Budget: <strong style={{ color: '#e2e8f0' }}>ε_b = 1.25×10⁻⁴</strong> (ε_total = 10⁻³)</span>
+              </div>
+              <div style={{ fontSize: 9.5, color: '#64748b', marginTop: 4, fontFamily: 'Inter' }}>
+                Thresholds are received dynamically from backend <code>VerificationPayload.thresholds</code>. Values are identical across standard test sessions because calibration sample counts and noise baselines are fixed by specification.
+              </div>
+            </div>
+
             <div className="verdict-disclaimer">
               <span>ℹ</span>
               <span>

@@ -159,6 +159,18 @@ def _default_thresholds() -> Any:
     return calculate_thresholds(mu_hats, n_cal, n_ver, budget=budget)
 
 
+# ── Endpoint: GET /health ───────────────────────────────────────────────────────
+
+@app.get(
+    "/health",
+    summary="Health check endpoint",
+    description="Returns service health status, API version, and service name for Docker healthchecks.",
+    tags=["System"],
+)
+def health_check() -> Dict[str, str]:
+    return {"status": "ok", "version": "0.8.0", "service": "QUASAR-TDS"}
+
+
 # ── Endpoint: POST /session ────────────────────────────────────────────────────
 
 @app.post(

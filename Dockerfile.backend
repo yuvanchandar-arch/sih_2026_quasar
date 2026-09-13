@@ -1,0 +1,41 @@
+# ==============================================================================
+# QUASAR-TDS Backend — Quantum Threat Detection Engine & FastAPI Service
+# Specification §15–§18
+# ==============================================================================
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install minimal OS dependencies for compilation and network health check
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application layers
+COPY quantum_core/ ./quantum_core/
+COPY protocol_core/ ./protocol_core/
+COPY detection_engine/ ./detection_engine/
+COPY attack_engine/ ./attack_engine/
+COPY api/ ./api/
+COPY calibration_data/ ./calibration_data/
+COPY benchmarks/ ./benchmarks/
+COPY tests/ ./tests/
+
+# Environment configuration
+ENV PYTHONUNBUFFERED=1
+ENV HOST=0.0.0.0
+ENV PORT=8000
+
+EXPOSE 8000
+
+# Built-in Docker healthcheck hitting the GET /health endpoint
+HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Launch production ASGI server
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

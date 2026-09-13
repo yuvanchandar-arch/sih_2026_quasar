@@ -244,3 +244,18 @@ def test_benchmark_row_has_required_disclosure_fields(client):
             assert row[field] is not None and str(row[field]).strip() != "", (
                 f"Empty disclosure field '{field}' in row {row.get('scenario_id')}"
             )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 15. System Health Check
+# ─────────────────────────────────────────────────────────────────────────────
+
+def test_health_check_returns_ok(client):
+    """GET /health → HTTP 200, status == 'ok', service == 'QUASAR-TDS'."""
+    resp = client.get("/health")
+    assert resp.status_code == 200, resp.text
+    body = resp.json()
+    assert body["status"] == "ok"
+    assert body["service"] == "QUASAR-TDS"
+    assert "version" in body
+

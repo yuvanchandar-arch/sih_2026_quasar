@@ -66,10 +66,10 @@ export default function BenchmarkView() {
             Verification Latency by Scenario (ms)
           </span>
         </div>
-        <ResponsiveContainer width="100%" height={180}>
-          <BarChart data={chartData} margin={{ top: 4, right: 8, left: -16, bottom: 60 }}>
-            <XAxis dataKey="name" tick={{ fontSize: 9, fill: '#4a5568', fontFamily: 'Inter' }}
-              angle={-35} textAnchor="end" interval={0} />
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={chartData} margin={{ top: 8, right: 12, left: -12, bottom: 70 }}>
+            <XAxis dataKey="name" tick={{ fontSize: 9.5, fill: '#94a3b8', fontFamily: 'Inter, sans-serif' }}
+              angle={-38} textAnchor="end" interval={0} height={65} />
             <YAxis tickFormatter={v => `${v.toFixed(1)}ms`}
               tick={{ fontSize: 10, fill: '#94a3b8', fontFamily: 'JetBrains Mono' }}
               axisLine={false} tickLine={false} />
@@ -78,7 +78,7 @@ export default function BenchmarkView() {
               contentStyle={{ background: '#1a2035', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }} />
             <Bar dataKey="latency" radius={[4, 4, 0, 0]}>
               {chartData.map((entry, i) => (
-                <Cell key={i} fill={VERDICT_COLORS[entry.verdict] ?? '#3b82f6'} fillOpacity={0.8} />
+                <Cell key={i} fill={VERDICT_COLORS[entry.verdict] ?? '#3b82f6'} fillOpacity={0.85} />
               ))}
             </Bar>
           </BarChart>

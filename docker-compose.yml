@@ -1,0 +1,67 @@
+
+# ==============================================================================
+# QUASAR-TDS — Multi-Container Docker Compose Orchestration
+# Wiring: FastAPI Backend (8000) + React Nginx Dashboard (5173/80) + Replay Ledger Volume
+# ==============================================================================
+
+services:
+  # ── Backend Service: Quantum Verification & Threat Attribution Engine ──────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: quasar-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Persistent storage volume for Replay Ledger records and calibration audits
+      - replay_ledger_data:/app/ledger_storage
+      - benchmark_data:/app/benchmarks
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - quasar-net
+
+  # ── Frontend Service: React 19 + Vite + Nginx Dashboard ────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        - VITE_API_URL=http://localhost:8000
+    container_name: quasar-dashboard
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80/nginx-health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - quasar-net
+
+# ── Shared Storage Volumes & Networks ─────────────────────────────────────────
+volumes:
+  replay_ledger_data:
+    name: quasar_replay_ledger_data
+  benchmark_data:
+    name: quasar_benchmark_data
+
+networks:
+  quasar-net:
+    name: quasar_internal_network
+    driver: bridge

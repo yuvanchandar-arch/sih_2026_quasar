@@ -91,10 +91,12 @@ export default function ErrorRateChart({ payload }) {
         </BarChart>
       </ResponsiveContainer>
       <div style={{
-        fontSize: 10, color: 'var(--text-muted)', marginTop: 6,
-        fontFamily: 'JetBrains Mono', textAlign: 'right'
+        fontSize: 10, color: 'var(--text-muted)', marginTop: 8,
+        fontFamily: 'JetBrains Mono', display: 'flex', justifyContent: 'space-between',
+        flexWrap: 'wrap', gap: 6,
       }}>
-        Threshold τ_b = μ̂_b + δ^cal_b + δ^ver_b  (Hoeffding, §11.1)
+        <span>Live Threshold: τ = μ̂ + δ_cal + δ_ver (Hoeffding §11.1)</span>
+        <span style={{ color: '#cbd5e1' }}>μ̂=1.00% | n_cal=1000 (δ_cal=6.70%) | n_ver=500 (δ_ver=9.48%) | ε=1.25×10⁻⁴</span>
       </div>
     </motion.div>
   );

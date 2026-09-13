@@ -7,7 +7,7 @@ All thresholds are derived from closed-form statistics; no hardcoded constants o
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 import math
 
 
